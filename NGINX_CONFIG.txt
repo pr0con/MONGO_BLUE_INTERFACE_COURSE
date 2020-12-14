@@ -1,0 +1,64 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name yourdomain.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name yourdomain.com;
+
+	add_header Cache-Control no-cache;
+
+    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
+
+    root /var/www/parcel_blueprint/dist;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+	error_page 404 /index.html;
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+
+server {
+    listen 1701 ssl;
+    server_name  your-server.com;
+
+    ssl_certificate /etc/letsencrypt/live/your-server/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/your-server/privkey.pem;
+
+    ssl_session_timeout 5m;
+    ssl_session_cache shared:SSL:10m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 SSLv2 SSLv3;
+    ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+    ssl_prefer_server_ciphers on;
+    ssl_verify_client off;
+
+  
+    location / {
+        proxy_redirect off;
+        proxy_pass http://127.0.0.1:1500;      
+        proxy_set_header Host $host;
+        proxy_set_header X-Real_IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr:$remote_port;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;   # Upgrade protocol header
+        proxy_set_header Connection upgrade;
+    }
+}

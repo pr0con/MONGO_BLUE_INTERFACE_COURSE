@@ -1,0 +1,93 @@
+BLUE AND RED INTERFACE REPO
+- https://github.com/pr0con/FULLSTACK_3D_FRAMEWORK
+
+- mkdir keycertz
+- openssl genrsa -des3 -out mykey.pem 2048
+- openssl rsa -in mykey.pem -pubout > mykey.pub
+
+Nginx Certbot ubuntu 20.04
+	- apt install certbot python3-certbot-nginx
+	- service nginx stop
+	- sudo certbot certonly --standalone -d yourdomain.com -d www.yourdomain.com
+	- service nginx start
+
+
+//Initial User Account
+{
+    "firstname" : "system",
+    "lastname" : "administrator",
+    "alias" : "system",
+    "password" : "",
+    "email" : "admin@pr0con.com",
+    "created" : "2020-09-07T14:50:49.618Z",
+    "role" : "admin",
+    "last_login" : "2020-10-03T00:56:20.286Z"
+}
+
+/**** PYTHON NOTES ****/
+by default python3.8 is installed on 20.04 & >
+
+apt install python3-pip
+pip3 install websockets
+pip3 install motor
+
+chilkat python
+https://www.chilkatsoft.com/installPythonLinux2.asp
+
+
+MONGO GOLANG DRIVER DOCS>> 
+https://docs.mongodb.com/drivers/go
+
+	INSERT ARRAY OF DOCS GOOD READING
+	https://jhall.io/posts/go-json-tricks-array-as-structs/
+	https://irshadhasmat.medium.com/golang-simple-json-parsing-using-empty-interface-and-without-struct-in-go-language-e56d0e69968
+	
+	THEN THERE WAS THIS!!!
+	https://stackoverflow.com/questions/16846553/how-to-unmarshal-an-escaped-json-string-in-go <<<--- the keys to our kingdom
+	
+	
+PHP Mongo Management Interface
+https://www.digitalocean.com/community/tutorials/how-to-install-composer-on-ubuntu-20-04-quickstart
+mkdir php_systems
+cd php_systems
+curl -sS https://getcomposer.org/installer -o composer-setup.php
+HASH=`curl -sS https://composer.github.io/installer.sig`
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+
+Swoole PHP
+https://www.swoole.co.uk/docs/get-started/installation
+https://www.easyswoole.com/En/Socket/webSocketWss.html
+apt-get install php7.x-dev
+
+git clone https://github.com/swoole/swoole-src.git && \
+cd swoole-src && \
+git checkout v4.x.x
+
+cd swoole-src
+NOTE COMMANDS JUST A NOTE: Installing shared extensions:     /usr/lib/php/20190902/
+NOTE COMMANDS JUST A NOTE: Installing header files:          /usr/include/php/20190902/
+
+cd /etc/php/7.4/cli
+sudo echo "extension=swoole.so" >> php.ini
+
+CHILKAT PHP
+https://www.chilkatsoft.com/php.asp
+https://www.chilkatsoft.com/installPhpExtension.asp
+wget 64 bit linux version
+cd to chilkat untar directory
+php showExtDir.php 
+cp chilkat_9_5_0.so /usr/lib/php/20190902 <-- may be different on your system
+cd /etc/php/7.4/cli
+echo "extension=chilkat_9_5_0.so" >> php.ini
+
+
+MONGO PHP
+https://docs.mongodb.com/php-library/current/tutorial/install-php-library/
+pecl install mongodb
+echo "extension=mongodb.so" >> php.ini
+cd /var/www/php_systems
+composer require mongodb/mongodb
+
+	
